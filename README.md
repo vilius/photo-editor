@@ -1,6 +1,17 @@
-# Getting Started with Create React App
+## User Stories
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- As a user, I want to be able to browse through the list of images.
+  - Images list should be paginated.
+  - Image item should include image preview and author's name.
+- As a user, I want to click an image and be navigated to the edit image page.
+- As a user, I want to be able to edit image:
+  - User can select image size [height, width]
+  - User can choose greyscale mode.
+  - User can blur the image (grade between 1 - 10)
+  - User should see the currently edited image preview
+- As a user, I want to be able to download edited image
+- As a user, I want to be able to refresh the page at any point and still get the previous result
+- As a user I want the page to remember where I was when going back in history
 
 ## Available Scripts
 
@@ -38,9 +49,3 @@ If you aren’t satisfied with the build tool and configuration choices, you can
 Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
