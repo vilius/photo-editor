@@ -3,7 +3,7 @@
 - [x] As a user, I want to be able to browse through the list of images.
   - [x] Images list should be paginated.
   - [x] Image item should include image preview and author's name.
-- As a user, I want to click an image and be navigated to the edit image page.
+- [x] As a user, I want to click an image and be navigated to the edit image page.
 - As a user, I want to be able to edit image:
   - User can select image size [height, width]
   - User can choose greyscale mode.

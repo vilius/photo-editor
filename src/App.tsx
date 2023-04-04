@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import { useState } from 'react';
+import { FC, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useQuery } from 'react-query';
 
 import { picsum } from 'lib/picsum';
@@ -25,13 +25,15 @@ export const App: FC<Props> = ({ perPage = 12 }) => {
           {images?.map((image) => {
             return (
               <li key={image.id}>
-                <figure aria-label={`Image by ${image.author}`}>
-                  <img
-                    src={`https://picsum.photos/id/${image.id}/300/200`}
-                    alt={`Author ${image.author}`}
-                  />
-                  <figcaption>{image.author}</figcaption>
-                </figure>
+                <Link to={`/edit/${image.id}`}>
+                  <figure aria-label={`Image by ${image.author}`}>
+                    <img
+                      src={`https://picsum.photos/id/${image.id}/300/200`}
+                      alt={`Author ${image.author}`}
+                    />
+                    <figcaption>{image.author}</figcaption>
+                  </figure>
+                </Link>
               </li>
             );
           })}

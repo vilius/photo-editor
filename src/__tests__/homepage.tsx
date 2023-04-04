@@ -1,28 +1,9 @@
-import { render, screen, within, act, waitFor } from '@testing-library/react';
+import { screen, within, act, waitFor } from '@testing-library/react';
 import nock from 'nock';
 
-import { App } from 'App';
-import { Providers } from 'Providers';
+import { imageData, renderWithRouter } from 'testsHelpers';
 
-const imageData = [
-  {
-    id: 1,
-    author: 'Alejandro',
-    url: 'https://www.example.com/1.jpg',
-  },
-  {
-    id: 2,
-    author: 'Escamilla',
-    url: 'https://www.example.com/2.jpg',
-  },
-  {
-    id: 3,
-    author: 'Paul Jarvis',
-    url: 'https://www.example.com/3.jpg',
-  },
-];
-
-describe('As a user, I want to be able to browse through the list of images.', () => {
+describe('As a user, I want to be able to browse through the list of images', () => {
   beforeEach(() => {
     nock('https://picsum.photos')
       .defaultReplyHeaders({
@@ -38,7 +19,7 @@ describe('As a user, I want to be able to browse through the list of images.', (
   });
 
   it('renders a list of images', async () => {
-    render(<App perPage={2} />, { wrapper: Providers });
+    renderWithRouter();
 
     const images = await screen.findAllByAltText(/Author /);
 
@@ -46,7 +27,7 @@ describe('As a user, I want to be able to browse through the list of images.', (
   });
 
   it('renders a list of images with the correct author and image', async () => {
-    render(<App perPage={2} />, { wrapper: Providers });
+    renderWithRouter();
 
     const figure1 = await screen.findByLabelText(/Image by Alejandro/);
     expect(figure1).toHaveTextContent('Alejandro');
@@ -65,7 +46,7 @@ describe('As a user, I want to be able to browse through the list of images.', (
 
   describe('pagination', () => {
     it('allows navigating to next page and back', async () => {
-      render(<App perPage={2} />, { wrapper: Providers });
+      renderWithRouter();
 
       const nextButton = await screen.findByRole('button', { name: /Next/ });
       await waitFor(() => {
@@ -77,7 +58,7 @@ describe('As a user, I want to be able to browse through the list of images.', (
       });
       expect(previousButton).toBeDisabled();
 
-      await act(async () => {
+      act(() => {
         nextButton.click();
       });
       expect(previousButton).toBeEnabled();

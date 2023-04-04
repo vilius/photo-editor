@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { RouterProvider } from 'react-router-dom';
 
 import './index.css';
 import { Providers } from './Providers';
-import { App } from './App';
 import reportWebVitals from './reportWebVitals';
+
+import { browserRouter } from 'router';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -13,7 +15,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Providers>
-      <App />
+      <RouterProvider router={browserRouter} />
     </Providers>
   </React.StrictMode>
 );
