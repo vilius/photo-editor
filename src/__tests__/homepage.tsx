@@ -1,5 +1,7 @@
 import { render, screen } from '@testing-library/react';
-import { App } from '../App';
+
+import { App } from 'App';
+import { Providers } from 'Providers';
 
 const imageData = [
   {
@@ -16,8 +18,14 @@ const imageData = [
 
 describe('As a user, I want to be able to browse through the list of images.', () => {
   it('renders a list of images', async () => {
-    render(<App />);
-    const images = await screen.findAllByLabelText(/Image by/);
+    jest.spyOn(window, 'fetch').mockImplementation(async () => {
+      return {
+        json: async () => imageData,
+      } as Response;
+    });
+
+    render(<App />, { wrapper: Providers });
+    const images = await screen.findAllByAltText(/Author /);
     expect(images.length).toBe(imageData.length);
   });
 });
