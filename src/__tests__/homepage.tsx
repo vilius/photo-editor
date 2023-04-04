@@ -1,4 +1,4 @@
-import { render, screen, within, act } from '@testing-library/react';
+import { render, screen, within, act, waitFor } from '@testing-library/react';
 import nock from 'nock';
 
 import { App } from 'App';
@@ -30,28 +30,31 @@ describe('As a user, I want to be able to browse through the list of images.', (
         'access-control-allow-credentials': 'true',
       })
       .get('/v2/list')
-      .query({ page: 2, limit: 100 })
+      .query({ page: 2, limit: 2 })
       .reply(200, [imageData[2]])
       .get('/v2/list')
       .query(true)
-      .reply(200, [imageData[0], imageData[1]])
-      .persist();
+      .reply(200, [imageData[0], imageData[1]]);
   });
 
   it('renders a list of images', async () => {
-    render(<App />, { wrapper: Providers });
+    render(<App perPage={2} />, { wrapper: Providers });
+
     const images = await screen.findAllByAltText(/Author /);
+
     expect(images.length).toBe(2);
   });
 
   it('renders a list of images with the correct author and image', async () => {
-    render(<App />, { wrapper: Providers });
+    render(<App perPage={2} />, { wrapper: Providers });
+
     const figure1 = await screen.findByLabelText(/Image by Alejandro/);
     expect(figure1).toHaveTextContent('Alejandro');
     expect(within(figure1).getByAltText(/Author/)).toHaveAttribute(
       'src',
       'https://picsum.photos/id/1/300/200'
     );
+
     const figure2 = await screen.findByLabelText(/Image by Escamilla/);
     expect(figure2).toHaveTextContent('Escamilla');
     expect(within(figure2).getByAltText(/Author/)).toHaveAttribute(
@@ -62,10 +65,12 @@ describe('As a user, I want to be able to browse through the list of images.', (
 
   describe('pagination', () => {
     it('allows navigating to next page and back', async () => {
-      render(<App />, { wrapper: Providers });
+      render(<App perPage={2} />, { wrapper: Providers });
 
       const nextButton = await screen.findByRole('button', { name: /Next/ });
-      expect(nextButton).toBeEnabled();
+      await waitFor(() => {
+        expect(nextButton).toBeEnabled();
+      });
 
       const previousButton = await screen.findByRole('button', {
         name: /Previous/,
@@ -73,8 +78,9 @@ describe('As a user, I want to be able to browse through the list of images.', (
       expect(previousButton).toBeDisabled();
 
       await act(async () => {
-        await nextButton.click();
+        nextButton.click();
       });
+      expect(previousButton).toBeEnabled();
 
       const figure1 = await screen.findByLabelText(/Image by Paul Jarvis/);
       expect(within(figure1).getByAltText(/Author/)).toHaveAttribute(
@@ -82,7 +88,6 @@ describe('As a user, I want to be able to browse through the list of images.', (
         'https://picsum.photos/id/3/300/200'
       );
       expect(nextButton).toBeDisabled();
-      expect(previousButton).toBeEnabled();
     });
   });
 });

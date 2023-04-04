@@ -1,25 +1,19 @@
+import { FC } from 'react';
 import { useState } from 'react';
 import { useQuery } from 'react-query';
 
-type PicsumImage = {
-  id: string;
-  author: string;
-  width: number;
-  height: number;
-  url: string;
-  download_url: string;
+import { picsum } from 'lib/picsum';
+
+type Props = {
+  perPage?: number;
 };
 
-export const App = () => {
+export const App: FC<Props> = ({ perPage = 12 }) => {
   const [page, setPage] = useState(1);
 
-  const { data: images } = useQuery(['images', page], async () => {
-    const response = await fetch(
-      `https://picsum.photos/v2/list?page=${page}&limit=100`
-    );
-    const json = await response.json();
-    return json as PicsumImage[];
-  });
+  const { data: images } = useQuery(['images', page], () =>
+    picsum.list({ page, limit: perPage })
+  );
 
   return (
     <div className='App'>
@@ -50,8 +44,10 @@ export const App = () => {
             Previous
           </button>
           <button
-            disabled={page === 2}
-            onClick={() => setPage((page) => page + 1)}
+            disabled={(images?.length || 0) < perPage}
+            onClick={() => {
+              setPage((page) => page + 1);
+            }}
           >
             Next
           </button>
