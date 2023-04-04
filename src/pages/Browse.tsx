@@ -8,7 +8,7 @@ type Props = {
   perPage?: number;
 };
 
-export const App: FC<Props> = ({ perPage = 12 }) => {
+export const Browse: FC<Props> = ({ perPage = 12 }) => {
   const [page, setPage] = useState(1);
 
   const { data: images } = useQuery(['images', page], () =>

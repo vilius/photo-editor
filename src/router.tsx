@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import { App } from 'App';
-import { Editor } from 'Editor';
+import { Browse } from 'pages/Browse';
+import { Edit } from 'pages/Edit';
 
 type SiteConfiguration = {
   perPage: number;
@@ -10,11 +10,11 @@ type SiteConfiguration = {
 export const routes = (config: SiteConfiguration = { perPage: 12 }) => [
   {
     path: '/',
-    element: <App perPage={config.perPage} />,
+    element: <Browse perPage={config.perPage} />,
   },
   {
     path: '/edit/:imageId',
-    element: <Editor />,
+    element: <Edit />,
   },
 ];
 
