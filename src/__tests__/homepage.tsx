@@ -1,4 +1,5 @@
-import { render, screen, within } from '@testing-library/react';
+import { render, screen, within, act } from '@testing-library/react';
+import nock from 'nock';
 
 import { App } from 'App';
 import { Providers } from 'Providers';
@@ -14,42 +15,74 @@ const imageData = [
     author: 'Escamilla',
     url: 'https://www.example.com/2.jpg',
   },
+  {
+    id: 3,
+    author: 'Paul Jarvis',
+    url: 'https://www.example.com/3.jpg',
+  },
 ];
 
 describe('As a user, I want to be able to browse through the list of images.', () => {
-  it('renders a list of images', async () => {
-    jest.spyOn(window, 'fetch').mockImplementation(async () => {
-      return {
-        json: async () => imageData,
-      } as Response;
-    });
+  beforeEach(() => {
+    nock('https://picsum.photos')
+      .defaultReplyHeaders({
+        'access-control-allow-origin': '*',
+        'access-control-allow-credentials': 'true',
+      })
+      .get('/v2/list')
+      .query({ page: 2, limit: 100 })
+      .reply(200, [imageData[2]])
+      .get('/v2/list')
+      .query(true)
+      .reply(200, [imageData[0], imageData[1]])
+      .persist();
+  });
 
+  it('renders a list of images', async () => {
     render(<App />, { wrapper: Providers });
     const images = await screen.findAllByAltText(/Author /);
     expect(images.length).toBe(2);
   });
 
   it('renders a list of images with the correct author and image', async () => {
-    jest.spyOn(window, 'fetch').mockImplementation(async () => {
-      return {
-        json: async () => imageData,
-      } as Response;
-    });
-
     render(<App />, { wrapper: Providers });
-
-    const figure1 = screen.getByLabelText(/Image by Alejandro/);
+    const figure1 = await screen.findByLabelText(/Image by Alejandro/);
     expect(figure1).toHaveTextContent('Alejandro');
     expect(within(figure1).getByAltText(/Author/)).toHaveAttribute(
       'src',
       'https://picsum.photos/id/1/300/200'
     );
-
-    const figure2 = screen.getByLabelText(/Image by Escamilla/);
+    const figure2 = await screen.findByLabelText(/Image by Escamilla/);
     expect(figure2).toHaveTextContent('Escamilla');
     expect(within(figure2).getByAltText(/Author/)).toHaveAttribute(
       'src',
       'https://picsum.photos/id/2/300/200'
     );
+  });
+
+  describe('pagination', () => {
+    it('allows navigating to next page and back', async () => {
+      render(<App />, { wrapper: Providers });
+
+      const nextButton = await screen.findByRole('button', { name: /Next/ });
+      expect(nextButton).toBeEnabled();
+
+      const previousButton = await screen.findByRole('button', {
+        name: /Previous/,
+      });
+      expect(previousButton).toBeDisabled();
+
+      await act(async () => {
+        await nextButton.click();
+      });
+
+      const figure1 = await screen.findByLabelText(/Image by Paul Jarvis/);
+      expect(within(figure1).getByAltText(/Author/)).toHaveAttribute(
+        'src',
+        'https://picsum.photos/id/3/300/200'
+      );
+      expect(nextButton).toBeDisabled();
+      expect(previousButton).toBeEnabled();
+    });
   });
 });

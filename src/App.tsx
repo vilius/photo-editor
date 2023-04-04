@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useQuery } from 'react-query';
 
 type PicsumImage = {
@@ -10,8 +11,12 @@ type PicsumImage = {
 };
 
 export const App = () => {
-  const { data: images } = useQuery('images', async () => {
-    const response = await fetch(`https://picsum.photos/v2/list`);
+  const [page, setPage] = useState(1);
+
+  const { data: images } = useQuery(['images', page], async () => {
+    const response = await fetch(
+      `https://picsum.photos/v2/list?page=${page}&limit=100`
+    );
     const json = await response.json();
     return json as PicsumImage[];
   });
@@ -37,6 +42,20 @@ export const App = () => {
             );
           })}
         </ul>
+        <div>
+          <button
+            disabled={page === 1}
+            onClick={() => setPage((page) => page - 1)}
+          >
+            Previous
+          </button>
+          <button
+            disabled={page === 2}
+            onClick={() => setPage((page) => page + 1)}
+          >
+            Next
+          </button>
+        </div>
       </main>
     </div>
   );
