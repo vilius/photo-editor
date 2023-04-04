@@ -24,16 +24,14 @@ export const App = () => {
       <main>
         <ul>
           {images?.map((image) => {
-            const aspect = image.width / image.height;
             return (
               <li key={image.id}>
-                <figure>
+                <figure aria-label={`Image by ${image.author}`}>
                   <img
-                    src={`https://picsum.photos/id/${image.id}/300/${Math.round(
-                      300 / aspect
-                    )}`}
+                    src={`https://picsum.photos/id/${image.id}/300/200`}
                     alt={`Author ${image.author}`}
                   />
+                  <figcaption>{image.author}</figcaption>
                 </figure>
               </li>
             );
