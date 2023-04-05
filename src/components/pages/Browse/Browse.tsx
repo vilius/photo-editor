@@ -2,7 +2,7 @@ import { useQuery } from 'react-query';
 import { z } from 'zod';
 
 import { NavBar, LinkButton } from 'components/ui';
-import { picsum } from 'lib/picsum';
+import { picsumClient } from 'lib/picsum';
 import { useSafeParam } from 'hooks/useSafeParam';
 
 import { paths } from 'routes';
@@ -18,7 +18,7 @@ export const Browse = () => {
 
   const { data: images, isPlaceholderData } = useQuery(
     ['images', page],
-    () => picsum.list({ page, limit: perPage }),
+    () => picsumClient.list({ page, limit: perPage }),
     {
       keepPreviousData: true,
       placeholderData: placeholderImages,

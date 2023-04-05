@@ -7,6 +7,7 @@ type Props = {
   min: number;
   max: number;
   label: string;
+  className?: string;
   onChange: (value: number) => void;
 };
 
@@ -15,6 +16,7 @@ export const MinMaxNumberInput: FC<Props> = ({
   min,
   max,
   label,
+  className,
   onChange,
 }) => {
   const [invalidState, setInvalidState] = useState<string | undefined>(
@@ -24,9 +26,12 @@ export const MinMaxNumberInput: FC<Props> = ({
   return (
     <input
       type='number'
-      className={classNames('w-20', {
-        'outline-rose-400': invalidState !== undefined,
-      })}
+      className={classNames(
+        {
+          'outline-rose-400': invalidState !== undefined,
+        },
+        className
+      )}
       aria-label={label}
       value={invalidState === undefined ? value : invalidState}
       onChange={(e) => {

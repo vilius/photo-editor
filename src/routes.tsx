@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouteObject } from 'react-router-dom';
 
 import { Browse } from 'components/pages/Browse/Browse';
-import { Edit } from 'components/pages/Edit';
+import { Edit } from 'components/pages/Edit/Edit';
 
 const routes = [
   {

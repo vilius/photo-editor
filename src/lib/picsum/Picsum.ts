@@ -17,6 +17,9 @@ export class Picsum {
     limit: 12,
   };
 
+  static readonly MIN_WIDTH = 1;
+  static readonly MAX_WIDTH = 3000;
+
   constructor(config?: { version: 'v2' }) {
     this.version = config?.version || 'v2';
   }
