@@ -6,7 +6,7 @@ import { NavBar } from 'components/ui/NavBar';
 import { picsum, imageSrc } from 'lib/picsum';
 import { useSafeParam } from 'hooks/useSafeParam';
 
-import { paths } from 'router';
+import { paths } from 'routes';
 import { appConfig } from 'appConfig';
 
 const { perPage, thumbnailSize } = appConfig;

@@ -3,7 +3,7 @@ import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 import nock from 'nock';
 
 import { Providers } from 'Providers';
-import { reactRouterRoutes } from 'router';
+import { reactRouterRoutes } from 'routes';
 
 export const imageData = [
   {
