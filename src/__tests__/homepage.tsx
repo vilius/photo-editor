@@ -36,6 +36,7 @@ describe('As a user, I want to be able to browse through the list of images', ()
       renderWithRouter();
 
       const nextButton = await screen.findByRole('button', { name: /Next/ });
+
       await waitFor(() => {
         expect(nextButton).toHaveAttribute('aria-disabled', 'false');
       });

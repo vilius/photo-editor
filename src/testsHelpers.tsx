@@ -3,7 +3,7 @@ import { RouterProvider, createMemoryRouter } from 'react-router-dom';
 import nock from 'nock';
 
 import { Providers } from 'Providers';
-import { routes } from 'router';
+import { reactRouterRoutes } from 'router';
 
 export const imageData = [
   {
@@ -47,11 +47,12 @@ export const mockPicsum = () => {
       const limit = parseInt(params.get('limit') ?? '2', 10);
 
       return imageData.slice((page - 1) * limit, page * limit);
-    });
+    })
+    .persist();
 };
 
 export const renderWithRouter = (initialEntries: string[] = ['/']) => {
-  const router = createMemoryRouter(routes({ perPage: 2 }), { initialEntries });
+  const router = createMemoryRouter(reactRouterRoutes, { initialEntries });
 
   return render(
     <Providers>

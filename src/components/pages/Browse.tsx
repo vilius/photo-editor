@@ -1,4 +1,3 @@
-import { FC } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { z } from 'zod';
@@ -6,14 +5,13 @@ import { imageSrc } from 'lib/picsum';
 
 import { NavBar } from 'components/ui/NavBar';
 import { picsum } from 'lib/picsum';
+import { paths } from 'router';
 
-type Props = {
-  perPage?: number;
-};
+import { appConfig } from 'appConfig';
 
-const IMAGE_SIZE = { width: 300, height: 200 };
+const { perPage, thumbnailSize } = appConfig;
 
-export const Browse: FC<Props> = ({ perPage = 12 }) => {
+export const Browse = () => {
   const { pageNumber } = useParams();
 
   let page: number = 1;
@@ -38,16 +36,16 @@ export const Browse: FC<Props> = ({ perPage = 12 }) => {
           {images?.map((image) => {
             return (
               <li key={image.id}>
-                <Link to={`/edit/${image.id}`}>
+                <Link to={paths.editImagePath(image.id)}>
                   <figure aria-label={`Image by ${image.author}`}>
                     <img
                       src={imageSrc(image.id, {
-                        width: IMAGE_SIZE.width,
-                        height: IMAGE_SIZE.height,
+                        width: thumbnailSize.width,
+                        height: thumbnailSize.height,
                       })}
                       alt={`Author ${image.author}`}
-                      width={IMAGE_SIZE.width}
-                      height={IMAGE_SIZE.height}
+                      width={thumbnailSize.width}
+                      height={thumbnailSize.height}
                       className='d-block'
                     />
                     <figcaption>{image.author}</figcaption>
@@ -62,7 +60,7 @@ export const Browse: FC<Props> = ({ perPage = 12 }) => {
             role='button'
             className='bg-sky-600 hover:bg-sky-500 text-white p-2 px-4'
             style={!hasPrevious ? { pointerEvents: 'none', opacity: 0.5 } : {}}
-            to={`/page/${page - 1}`}
+            to={paths.browsePagePath(page - 1)}
             aria-disabled={!hasPrevious}
           >
             Previous
@@ -71,7 +69,7 @@ export const Browse: FC<Props> = ({ perPage = 12 }) => {
             role='button'
             className='bg-sky-600 hover:bg-sky-500 text-white p-2 px-4'
             style={!hasNext ? { pointerEvents: 'none', opacity: 0.5 } : {}}
-            to={`/page/${page + 1}`}
+            to={paths.browsePagePath(page + 1)}
             aria-disabled={!hasNext}
           >
             Next
