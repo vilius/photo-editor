@@ -13,6 +13,10 @@ export const routes = (config: SiteConfiguration = { perPage: 12 }) => [
     element: <Browse perPage={config.perPage} />,
   },
   {
+    path: '/page/:pageNumber',
+    element: <Browse perPage={config.perPage} />,
+  },
+  {
     path: '/edit/:imageId',
     element: <Edit />,
   },

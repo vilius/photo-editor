@@ -50,25 +50,25 @@ describe('As a user, I want to be able to browse through the list of images', ()
 
       const nextButton = await screen.findByRole('button', { name: /Next/ });
       await waitFor(() => {
-        expect(nextButton).toBeEnabled();
+        expect(nextButton).toHaveAttribute('aria-disabled', 'false');
       });
 
       const previousButton = await screen.findByRole('button', {
         name: /Previous/,
       });
-      expect(previousButton).toBeDisabled();
+      expect(previousButton).toHaveAttribute('aria-disabled', 'true');
 
       act(() => {
         nextButton.click();
       });
-      expect(previousButton).toBeEnabled();
+      expect(previousButton).toHaveAttribute('aria-disabled', 'false');
 
       const figure1 = await screen.findByLabelText(/Image by Paul Jarvis/);
       expect(within(figure1).getByAltText(/Author/)).toHaveAttribute(
         'src',
         'https://picsum.photos/id/3/300/200'
       );
-      expect(nextButton).toBeDisabled();
+      expect(nextButton).toHaveAttribute('aria-disabled', 'true');
     });
   });
 });
