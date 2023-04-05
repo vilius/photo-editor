@@ -1,50 +1,27 @@
-import { screen, act } from '@testing-library/react';
-import nock from 'nock';
+import { screen, fireEvent } from '@testing-library/react';
 
-import { renderWithRouter } from 'testsHelpers';
+import { renderWithRouter, mockPicsum } from 'testsHelpers';
 
-const imageData = [
-  {
-    id: 1,
-    author: 'Alejandro',
-    url: 'https://www.example.com/1.jpg',
-  },
-  {
-    id: 2,
-    author: 'Escamilla',
-    url: 'https://www.example.com/2.jpg',
-  },
-  {
-    id: 3,
-    author: 'Paul Jarvis',
-    url: 'https://www.example.com/3.jpg',
-  },
-];
+describe('As a user, I want to be able to edit image', () => {
+  beforeEach(mockPicsum);
 
-describe('As a user, I want to click an image and be navigated to the edit image page', () => {
-  beforeEach(() => {
-    nock('https://picsum.photos')
-      .defaultReplyHeaders({
-        'access-control-allow-origin': '*',
-        'access-control-allow-credentials': 'true',
-      })
-      .get('/v2/list')
-      .query({ page: 2, limit: 2 })
-      .reply(200, [imageData[2]])
-      .get('/v2/list')
-      .query(true)
-      .reply(200, [imageData[0], imageData[1]]);
-  });
+  it('allows changing image width and height', async () => {
+    renderWithRouter(['/edit/1']);
 
-  it('navigates to /edit/:imageId when image clicked', async () => {
-    renderWithRouter();
+    const widthInput = screen.getByLabelText('Image Width');
+    const heightInput = screen.getByLabelText('Image Height');
 
-    const images = await screen.findAllByAltText(/Author /);
+    expect(widthInput).toBeInTheDocument();
+    expect(heightInput).toBeInTheDocument();
 
-    act(() => {
-      images[0].click();
-    });
+    fireEvent.change(widthInput, { target: { value: '300' } });
+    fireEvent.change(heightInput, { target: { value: '100' } });
 
-    expect(screen.getByText(/Edit Image/)).toBeInTheDocument();
+    const preview = screen.getByAltText('Preview');
+    if (!(preview instanceof HTMLImageElement)) {
+      throw new Error('Preview is not an image');
+    }
+
+    expect(preview.src).toBe('https://picsum.photos/id/1/300/100');
   });
 });

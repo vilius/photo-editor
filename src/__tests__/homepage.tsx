@@ -1,22 +1,9 @@
 import { screen, within, act, waitFor } from '@testing-library/react';
-import nock from 'nock';
 
-import { imageData, renderWithRouter } from 'testsHelpers';
+import { renderWithRouter, mockPicsum } from 'testsHelpers';
 
 describe('As a user, I want to be able to browse through the list of images', () => {
-  beforeEach(() => {
-    nock('https://picsum.photos')
-      .defaultReplyHeaders({
-        'access-control-allow-origin': '*',
-        'access-control-allow-credentials': 'true',
-      })
-      .get('/v2/list')
-      .query({ page: 2, limit: 2 })
-      .reply(200, [imageData[2]])
-      .get('/v2/list')
-      .query(true)
-      .reply(200, [imageData[0], imageData[1]]);
-  });
+  beforeEach(mockPicsum);
 
   it('renders a list of images', async () => {
     renderWithRouter();
@@ -70,5 +57,21 @@ describe('As a user, I want to be able to browse through the list of images', ()
       );
       expect(nextButton).toHaveAttribute('aria-disabled', 'true');
     });
+  });
+});
+
+describe('As a user, I want to click an image and be navigated to the edit image page', () => {
+  beforeEach(mockPicsum);
+
+  it('navigates to /edit/:imageId when image is clicked', async () => {
+    renderWithRouter();
+
+    const images = await screen.findAllByAltText(/Author /);
+
+    act(() => {
+      images[0].click();
+    });
+
+    expect(screen.getByText(/Edit Image/)).toBeInTheDocument();
   });
 });
