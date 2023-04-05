@@ -63,4 +63,21 @@ describe('As a user, I want to be able to edit image', () => {
 
     expect(preview.src).toBe('https://picsum.photos/id/1/300/200?blur=5');
   });
+
+  it('allows downloading the image', async () => {
+    renderWithRouter(['/edit/1']);
+
+    const blurLevelSelect = screen.getByLabelText('Blur image');
+
+    expect(blurLevelSelect).toBeInTheDocument();
+
+    fireEvent.change(blurLevelSelect, { target: { value: '5' } });
+
+    const preview = screen.getByAltText('Preview');
+    if (!(preview instanceof HTMLImageElement)) {
+      throw new Error('Preview is not an image');
+    }
+
+    expect(preview.src).toBe('https://picsum.photos/id/1/300/200?blur=5');
+  });
 });

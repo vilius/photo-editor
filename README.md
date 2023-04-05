@@ -9,7 +9,7 @@
   - [x] User can choose greyscale mode.
   - [x] User can blur the image (grade between 1 - 10)
   - [x] User should see the currently edited image preview
-- As a user, I want to be able to download edited image
+- [x] As a user, I want to be able to download edited image
 - As a user, I want to be able to refresh the page at any point and still get the previous result
 - As a user I want the page to remember where I was when going back in history
 

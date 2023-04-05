@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 
 import { usePersistentState } from 'hooks/usePersistentState';
+import { downloadImage } from 'lib/downloadImage';
 
 import { NavBar } from 'components/ui/NavBar';
 
@@ -89,7 +90,7 @@ export const Edit = () => {
               }
             />
           </label>
-          <label className='flex gap-4'>
+          <label className='flex gap-4 mb-4'>
             <span className='grow cursor-pointer'>Blur level</span>
             <select
               className='w-20'
@@ -111,6 +112,24 @@ export const Edit = () => {
                 ))}
             </select>
           </label>
+
+          <button
+            className='bg-sky-600 hover:bg-sky-500 text-white p-2 px-4 w-full max-w-xs block text-center'
+            onClick={() => {
+              downloadImage(
+                `https://picsum.photos/id/${imageId}/${imageConfig.width}/${
+                  imageConfig.height
+                }${imageConfig.grayscale ? '?grayscale' : ''}${
+                  imageConfig.blur ? `?blur=${imageConfig.blur}` : ''
+                }`,
+                {
+                  basename: `image-${imageId}`,
+                }
+              );
+            }}
+          >
+            Download Image
+          </button>
         </div>
       </article>
     </main>
