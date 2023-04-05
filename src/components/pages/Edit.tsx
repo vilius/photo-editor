@@ -45,21 +45,21 @@ export const Edit = () => {
         </button>
       </NavBar>
       <article className='flex grow'>
-        <div className='grow'>
-          <img
-            src={imageSrc(imageId || '', {
-              width: imageConfig.width,
-              height: imageConfig.height,
-              grayscale: imageConfig.grayscale,
-              blur: imageConfig.blur,
-            })}
-            alt='Preview'
-            width={imageConfig.width}
-            height={imageConfig.height}
-            className='d-block'
-          />
+        <div className='grow bg-slate-50 mr-4 flex items-center justify-center relative'>
+          <div className='absolute max-h-full max-w-full flex'>
+            <img
+              src={imageSrc(imageId || '', {
+                width: imageConfig.width,
+                height: imageConfig.height,
+                grayscale: imageConfig.grayscale,
+                blur: imageConfig.blur,
+              })}
+              alt='Preview'
+              className='d-block max-h-full max-w-full object-contain'
+            />
+          </div>
         </div>
-        <div className='bg-slate-200 rounded p-4 px-5 h-full'>
+        <div className='bg-slate-100 rounded p-4 px-5 h-full lg:min-w-[300px]'>
           <h2 className='mb-8'>Customize Image</h2>
           <label className='flex gap-4 mb-4'>
             <span className='grow cursor-pointer'>Width</span>
