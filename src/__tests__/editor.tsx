@@ -44,7 +44,7 @@ describe('As a user, I want to be able to edit image', () => {
       throw new Error('Preview is not an image');
     }
 
-    expect(preview.src).toBe('https://picsum.photos/id/1/300/200?grayscale');
+    expect(preview.src).toBe('https://picsum.photos/id/1/300/200?grayscale=1');
   });
 
   it('allows choosing blur level', async () => {

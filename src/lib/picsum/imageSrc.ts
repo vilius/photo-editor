@@ -18,7 +18,7 @@ export const imageSrc = (id: string, options: ImageOptions): string => {
   }
 
   if (grayscale) {
-    url.searchParams.append('grayscale', '');
+    url.searchParams.append('grayscale', '1');
   }
 
   return url.toString();
