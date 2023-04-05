@@ -63,7 +63,7 @@ describe('As a user, I want to be able to browse through the list of images', ()
 describe('As a user, I want to click an image and be navigated to the edit image page', () => {
   beforeEach(mockPicsum);
 
-  it('navigates to /edit/:imageId when image is clicked', async () => {
+  it('navigates to /edit/:imageId', async () => {
     renderWithRouter();
 
     const images = await screen.findAllByAltText(/Author /);
