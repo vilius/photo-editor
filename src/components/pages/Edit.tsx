@@ -117,18 +117,13 @@ export const Edit = () => {
                   blur: parseInt(e.target.value, 10) || 0,
                 }))
               }
+              value={imageConfig.blur}
             >
-              <option value={0} selected={imageConfig.blur === 0}>
-                No blur
-              </option>
+              <option value={0}>No blur</option>
               {Array(10)
                 .fill(0)
                 .map((_, i) => (
-                  <option
-                    key={i}
-                    value={i + 1}
-                    selected={imageConfig.blur === i + 1}
-                  >
+                  <option key={i} value={i + 1}>
                     {i + 1}
                   </option>
                 ))}
