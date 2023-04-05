@@ -63,7 +63,6 @@ export const downloadImage = (url: string, options?: Partial<Options>) => {
       downloadUsingAnchor(canvas.toDataURL(mimeType), filename);
     } catch (e) {
       // Fallback to normal download if canvas is not supported
-      console.warn('Unable to use canvas to download image.', e);
       downloadUsingAnchor(url, filename);
     }
   };

@@ -1,12 +1,11 @@
 import { Link, useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { z } from 'zod';
-import { imageSrc } from 'lib/picsum';
 
 import { NavBar } from 'components/ui/NavBar';
-import { picsum } from 'lib/picsum';
-import { paths } from 'router';
+import { picsum, imageSrc } from 'lib/picsum';
 
+import { paths } from 'router';
 import { appConfig } from 'appConfig';
 
 const { perPage, thumbnailSize } = appConfig;
@@ -14,7 +13,7 @@ const { perPage, thumbnailSize } = appConfig;
 export const Browse = () => {
   const { pageNumber } = useParams();
 
-  let page: number = 1;
+  let page = 1;
   const pageParam = z.coerce.number().min(1).safeParse(pageNumber);
 
   if (pageParam.success) {
@@ -33,27 +32,25 @@ export const Browse = () => {
       <NavBar title={`Browse Images${page > 1 ? ` [Page ${page}]` : ''}`} />
       <article>
         <ul className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-4'>
-          {images?.map((image) => {
-            return (
-              <li key={image.id}>
-                <Link to={paths.editImagePath(image.id)}>
-                  <figure aria-label={`Image by ${image.author}`}>
-                    <img
-                      src={imageSrc(image.id, {
-                        width: thumbnailSize.width,
-                        height: thumbnailSize.height,
-                      })}
-                      alt={`Author ${image.author}`}
-                      width={thumbnailSize.width}
-                      height={thumbnailSize.height}
-                      className='d-block'
-                    />
-                    <figcaption>{image.author}</figcaption>
-                  </figure>
-                </Link>
-              </li>
-            );
-          })}
+          {images?.map((image) => (
+            <li key={image.id}>
+              <Link to={paths.editImagePath(image.id)}>
+                <figure aria-label={`Image by ${image.author}`}>
+                  <img
+                    src={imageSrc(image.id, {
+                      width: thumbnailSize.width,
+                      height: thumbnailSize.height,
+                    })}
+                    alt={`Author ${image.author}`}
+                    width={thumbnailSize.width}
+                    height={thumbnailSize.height}
+                    className='d-block'
+                  />
+                  <figcaption>{image.author}</figcaption>
+                </figure>
+              </Link>
+            </li>
+          ))}
         </ul>
         <div className='flex gap-4'>
           <Link

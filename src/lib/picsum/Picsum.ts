@@ -9,7 +9,9 @@ type ListParams = {
 
 export class Picsum {
   private version: 'v2';
+
   static readonly MAX_LIMIT = 100;
+
   static readonly DEFAULT_LIST_PARAMS: ListParams = {
     page: 1,
     limit: 12,

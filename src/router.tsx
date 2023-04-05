@@ -23,18 +23,18 @@ const routes = [
 
 type Names = typeof routes[number]['name'];
 type Paths = {
-  [key in `${Names}Path`]: (...args: any[]) => string;
+  [key in `${Names}Path`]: (...args: unknown[]) => string;
 };
 
 /**
  * Create path helpers from routes.
  * Use 'name' property to generate { [`name${Path}`]: (args) => string] }
  */
-export const paths = routes.reduce((paths, route) => {
-  paths[`${route.name}Path`] = (...args: string[]) => {
-    return route.path.replaceAll(/:\w+/g, () => String(args.shift()) || '');
-  };
-  return paths;
+export const paths = routes.reduce((acc, route) => {
+  acc[`${route.name}Path`] = (...args: unknown[]) =>
+    route.path.replaceAll(/:\w+/g, () => String(args.shift()) || '');
+
+  return acc;
 }, {} as Paths);
 
 export const reactRouterRoutes: RouteObject[] = routes.map((route) => {

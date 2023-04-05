@@ -30,15 +30,14 @@ export const Edit = () => {
     }
   );
 
-  const minMaxProps = {
-    min: 1,
-    max: 5000,
-  };
+  const minWidth = 1;
+  const maxWidth = 5000;
 
   return (
     <main className='p-4 pb-8 px-8 h-screen flex flex-col'>
       <NavBar title='Edit Image'>
         <button
+          type='button'
           className='border hover:border-slate-400 text-sm p-1 px-2'
           onClick={() => goBackWithFallback('/')}
         >
@@ -65,7 +64,8 @@ export const Edit = () => {
           <label className='flex gap-4 mb-4'>
             <span className='grow cursor-pointer'>Width</span>
             <MinMaxNumberInput
-              {...minMaxProps}
+              min={minWidth}
+              max={maxWidth}
               label='Image Width'
               value={imageConfig.width}
               onChange={(value) =>
@@ -79,7 +79,8 @@ export const Edit = () => {
           <label className='flex gap-4 mb-4'>
             <span className='grow cursor-pointer'>Height</span>
             <MinMaxNumberInput
-              {...minMaxProps}
+              min={minWidth}
+              max={maxWidth}
               label='Image Height'
               value={imageConfig.height}
               onChange={(value) =>
@@ -131,6 +132,7 @@ export const Edit = () => {
           </label>
 
           <button
+            type='button'
             className='bg-sky-600 hover:bg-sky-500 text-white p-2 px-4 w-full max-w-xs block text-center'
             onClick={() => {
               downloadImage(

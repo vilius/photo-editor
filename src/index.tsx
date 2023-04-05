@@ -2,11 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 
+import { browserRouter } from 'router';
+
 import './index.css';
 import { Providers } from './Providers';
 import reportWebVitals from './reportWebVitals';
-
-import { browserRouter } from 'router';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

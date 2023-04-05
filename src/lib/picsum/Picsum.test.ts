@@ -1,8 +1,7 @@
 import nock from 'nock';
-import { mockPicsum } from 'testsHelpers';
+import { mockPicsum, imageData } from 'testsHelpers';
 
-import { Picsum } from '../picsum/Picsum';
-import { imageData } from 'testsHelpers';
+import { Picsum } from './Picsum';
 
 const picsum = new Picsum();
 
@@ -49,7 +48,7 @@ describe('Picsum', () => {
         })
         .get('/v2/list')
         .query(true)
-        .reply(200, (url) => {
+        .reply(200, () => {
           const response: Partial<typeof imageData[0]>[] = [imageData[1]];
           delete response[0].download_url;
           return response;
