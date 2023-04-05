@@ -14,8 +14,27 @@ const { perPage, thumbnailSize } = appConfig;
 export const Browse = () => {
   const page = useSafeParam('pageNumber', z.coerce.number().min(1), 1);
 
-  const { data: images } = useQuery(['images', page], () =>
-    picsum.list({ page, limit: perPage })
+  const placeHolder = {
+    id: '',
+    author: '',
+    width: 300,
+    height: 200,
+    url: '',
+    download_url: '',
+  };
+
+  const { data: images, isPlaceholderData } = useQuery(
+    ['images', page],
+    () => picsum.list({ page, limit: perPage }),
+    {
+      keepPreviousData: true,
+      placeholderData: Array(perPage)
+        .fill(0)
+        .map((_, index) => ({
+          ...placeHolder,
+          id: `placeholder-${index}`,
+        })),
+    }
   );
 
   const hasPrevious = page > 1;
@@ -30,17 +49,23 @@ export const Browse = () => {
             <li key={image.id}>
               <Link to={paths.editImagePath(image.id)}>
                 <figure aria-label={`Image by ${image.author}`}>
-                  <img
-                    src={imageSrc(image.id, {
-                      width: thumbnailSize.width,
-                      height: thumbnailSize.height,
-                    })}
-                    alt={`Author ${image.author}`}
-                    width={thumbnailSize.width}
-                    height={thumbnailSize.height}
-                    className='d-block'
-                  />
-                  <figcaption>{image.author}</figcaption>
+                  <div className='aspect-[3/2] mb-1 relative bg-gray-300'>
+                    {!isPlaceholderData && (
+                      <img
+                        src={imageSrc(image.id, {
+                          width: thumbnailSize.width,
+                          height: thumbnailSize.height,
+                        })}
+                        alt={`Author ${image.author}`}
+                        width={thumbnailSize.width}
+                        height={thumbnailSize.height}
+                        className='d-block'
+                      />
+                    )}
+                  </div>
+                  <figcaption className='min-h-[24px]'>
+                    {image.author}
+                  </figcaption>
                 </figure>
               </Link>
             </li>

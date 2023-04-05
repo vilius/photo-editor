@@ -15,7 +15,7 @@ export const NavBar: FC<Props> = ({ title, children }) => (
       to={paths.browsePath()}
       className='w-8 h-8 bg-sky-600 rounded-full flex items-center justify-center'
     >
-      <span className='text-sm font-bold ml-[1px] text-white'>H</span>
+      <span className='text-sm font-bold ml-[1px] text-white'>P</span>
     </Link>
     {title ? <h1 className='text-lg'>{title}</h1> : null}
     {children}
