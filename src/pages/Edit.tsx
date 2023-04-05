@@ -7,6 +7,7 @@ import { NavBar } from 'components/ui/NavBar';
 type ImageConfig = {
   width: number;
   height: number;
+  grayscale: boolean;
 };
 
 export const Edit = () => {
@@ -17,6 +18,7 @@ export const Edit = () => {
     {
       width: 300,
       height: 200,
+      grayscale: false,
     }
   );
 
@@ -26,7 +28,9 @@ export const Edit = () => {
       <article className='flex grow'>
         <div className='grow'>
           <img
-            src={`https://picsum.photos/id/${imageId}/${imageConfig.width}/${imageConfig.height}`}
+            src={`https://picsum.photos/id/${imageId}/${imageConfig.width}/${
+              imageConfig.height
+            }${imageConfig.grayscale ? '?grayscale' : ''}`}
             alt='Preview'
             width={imageConfig.width}
             height={imageConfig.height}
@@ -50,7 +54,7 @@ export const Edit = () => {
               }
             />
           </label>
-          <label className='flex gap-4'>
+          <label className='flex gap-4 mb-4'>
             <span className='grow cursor-pointer'>Height</span>
             <input
               type='number'
@@ -61,6 +65,22 @@ export const Edit = () => {
                 setImageConfig((current) => ({
                   ...current,
                   height: parseInt(e.target.value, 10) || 300,
+                }))
+              }
+            />
+          </label>
+          <label className='flex gap-4'>
+            <span className='grow cursor-pointer'>Grayscale</span>
+            <input
+              type='checkbox'
+              className='w-20'
+              aria-label='Make image grayscale'
+              value='1'
+              checked={imageConfig.grayscale}
+              onChange={(e) =>
+                setImageConfig((current) => ({
+                  ...current,
+                  grayscale: e.target.checked,
                 }))
               }
             />

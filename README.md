@@ -6,7 +6,7 @@
 - [x] As a user, I want to click an image and be navigated to the edit image page.
 - As a user, I want to be able to edit image:
   - [x] User can select image size [height, width]
-  - User can choose greyscale mode.
+  - [x] User can choose greyscale mode.
   - User can blur the image (grade between 1 - 10)
   - User should see the currently edited image preview
 - As a user, I want to be able to download edited image
