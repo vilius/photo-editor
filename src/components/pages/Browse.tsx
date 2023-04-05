@@ -3,6 +3,7 @@ import { useQuery } from 'react-query';
 import { z } from 'zod';
 
 import { NavBar } from 'components/ui/NavBar';
+import { LinkButton } from 'components/ui/LinkButton';
 import { picsum, imageSrc } from 'lib/picsum';
 import { useSafeParam } from 'hooks/useSafeParam';
 
@@ -72,26 +73,17 @@ export const Browse = () => {
           ))}
         </ul>
         <div className='flex gap-4'>
-          <Link
-            role='button'
-            className='bg-sky-600 hover:bg-sky-500 text-white p-2 px-4'
-            style={!hasPrevious ? { pointerEvents: 'none', opacity: 0.5 } : {}}
+          <LinkButton
+            disabled={!hasPrevious}
             to={
               page === 2 ? paths.browsePath() : paths.browsePagePath(page - 1)
             }
-            aria-disabled={!hasPrevious}
           >
             Previous
-          </Link>
-          <Link
-            role='button'
-            className='bg-sky-600 hover:bg-sky-500 text-white p-2 px-4'
-            style={!hasNext ? { pointerEvents: 'none', opacity: 0.5 } : {}}
-            to={paths.browsePagePath(page + 1)}
-            aria-disabled={!hasNext}
-          >
+          </LinkButton>
+          <LinkButton disabled={!hasNext} to={paths.browsePagePath(page + 1)}>
             Next
-          </Link>
+          </LinkButton>
         </div>
       </article>
     </main>
