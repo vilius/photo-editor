@@ -15,6 +15,7 @@ export const Browse: FC<Props> = ({ perPage = 12 }) => {
 
   let page: number = 1;
   const pageParam = z.coerce.number().min(1).safeParse(pageNumber);
+
   if (pageParam.success) {
     page = pageParam.data;
   }
@@ -28,7 +29,7 @@ export const Browse: FC<Props> = ({ perPage = 12 }) => {
 
   return (
     <main className='p-4 px-8'>
-      <NavBar title='Browse Images' />
+      <NavBar title={`Browse Images${page > 1 ? ` [Page ${page}]` : ''}`} />
       <article>
         <ul className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-4'>
           {images?.map((image) => {

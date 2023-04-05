@@ -5,7 +5,7 @@
   - [x] Image item should include image preview and author's name.
 - [x] As a user, I want to click an image and be navigated to the edit image page.
 - As a user, I want to be able to edit image:
-  - User can select image size [height, width]
+  - [x] User can select image size [height, width]
   - User can choose greyscale mode.
   - User can blur the image (grade between 1 - 10)
   - User should see the currently edited image preview
