@@ -57,7 +57,9 @@ export const Browse = () => {
             role='button'
             className='bg-sky-600 hover:bg-sky-500 text-white p-2 px-4'
             style={!hasPrevious ? { pointerEvents: 'none', opacity: 0.5 } : {}}
-            to={paths.browsePagePath(page - 1)}
+            to={
+              page === 2 ? paths.browsePath() : paths.browsePagePath(page - 1)
+            }
             aria-disabled={!hasPrevious}
           >
             Previous
