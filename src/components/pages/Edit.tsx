@@ -4,6 +4,7 @@ import { usePersistentState } from 'hooks/usePersistentState';
 import { downloadImage } from 'lib/downloadImage';
 
 import { NavBar } from 'components/ui/NavBar';
+import { MinMaxNumberInput } from 'components/ui/MinMaxNumberInput';
 
 type ImageConfig = {
   width: number;
@@ -24,6 +25,11 @@ export const Edit = () => {
       blur: 0,
     }
   );
+
+  const minMaxProps = {
+    min: 1,
+    max: 5000,
+  };
 
   return (
     <main className='p-4 pb-8 px-8 h-screen flex flex-col'>
@@ -46,30 +52,28 @@ export const Edit = () => {
           <h2 className='mb-8'>Customize Image</h2>
           <label className='flex gap-4 mb-4'>
             <span className='grow cursor-pointer'>Width</span>
-            <input
-              type='number'
-              className='w-20'
-              aria-label='Image Width'
+            <MinMaxNumberInput
+              {...minMaxProps}
+              label='Image Width'
               value={imageConfig.width}
-              onChange={(e) =>
+              onChange={(value) =>
                 setImageConfig((current) => ({
                   ...current,
-                  width: parseInt(e.target.value, 10) || 200,
+                  width: value,
                 }))
               }
             />
           </label>
           <label className='flex gap-4 mb-4'>
             <span className='grow cursor-pointer'>Height</span>
-            <input
-              type='number'
-              className='w-20'
-              aria-label='Image Height'
+            <MinMaxNumberInput
+              {...minMaxProps}
+              label='Image Height'
               value={imageConfig.height}
-              onChange={(e) =>
+              onChange={(value) =>
                 setImageConfig((current) => ({
                   ...current,
-                  height: parseInt(e.target.value, 10) || 300,
+                  height: value,
                 }))
               }
             />
