@@ -1,6 +1,8 @@
 import { useParams } from 'react-router-dom';
 
 import { usePersistentState } from 'hooks/usePersistentState';
+import { useGoBackWithFallback } from 'hooks/useGoBackWithFallback';
+
 import { downloadImage } from 'lib/downloadImage';
 import { imageSrc } from 'lib/picsum';
 
@@ -16,6 +18,7 @@ type ImageConfig = {
 
 export const Edit = () => {
   const { imageId } = useParams<{ imageId: string }>();
+  const goBackWithFallback = useGoBackWithFallback();
 
   const [imageConfig, setImageConfig] = usePersistentState<ImageConfig>(
     ['image-config', imageId],
@@ -34,7 +37,14 @@ export const Edit = () => {
 
   return (
     <main className='p-4 pb-8 px-8 h-screen flex flex-col'>
-      <NavBar title='Edit Image' />
+      <NavBar title='Edit Image'>
+        <button
+          className='border hover:border-slate-400 text-sm p-1 px-2'
+          onClick={() => goBackWithFallback('/')}
+        >
+          Back to images
+        </button>
+      </NavBar>
       <article className='flex grow'>
         <div className='grow'>
           <img
