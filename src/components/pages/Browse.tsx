@@ -1,9 +1,10 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { z } from 'zod';
 
 import { NavBar } from 'components/ui/NavBar';
 import { picsum, imageSrc } from 'lib/picsum';
+import { useSafeParam } from 'hooks/useSafeParam';
 
 import { paths } from 'router';
 import { appConfig } from 'appConfig';
@@ -11,14 +12,7 @@ import { appConfig } from 'appConfig';
 const { perPage, thumbnailSize } = appConfig;
 
 export const Browse = () => {
-  const { pageNumber } = useParams();
-
-  let page = 1;
-  const pageParam = z.coerce.number().min(1).safeParse(pageNumber);
-
-  if (pageParam.success) {
-    page = pageParam.data;
-  }
+  const page = useSafeParam('pageNumber', z.coerce.number().min(1), 1);
 
   const { data: images } = useQuery(['images', page], () =>
     picsum.list({ page, limit: perPage })
