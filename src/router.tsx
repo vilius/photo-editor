@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import { Browse } from 'pages/Browse';
-import { Edit } from 'pages/Edit';
+import { Browse } from 'components/pages/Browse';
+import { Edit } from 'components/pages/Edit';
 
 type SiteConfiguration = {
   perPage: number;
