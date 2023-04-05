@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 
 import { usePersistentState } from 'hooks/usePersistentState';
 import { downloadImage } from 'lib/downloadImage';
+import { imageSrc } from 'lib/picsum';
 
 import { NavBar } from 'components/ui/NavBar';
 import { MinMaxNumberInput } from 'components/ui/MinMaxNumberInput';
@@ -37,11 +38,12 @@ export const Edit = () => {
       <article className='flex grow'>
         <div className='grow'>
           <img
-            src={`https://picsum.photos/id/${imageId}/${imageConfig.width}/${
-              imageConfig.height
-            }${imageConfig.grayscale ? '?grayscale' : ''}${
-              imageConfig.blur ? `?blur=${imageConfig.blur}` : ''
-            }`}
+            src={imageSrc(imageId || '', {
+              width: imageConfig.width,
+              height: imageConfig.height,
+              grayscale: imageConfig.grayscale,
+              blur: imageConfig.blur,
+            })}
             alt='Preview'
             width={imageConfig.width}
             height={imageConfig.height}
@@ -106,11 +108,17 @@ export const Edit = () => {
                 }))
               }
             >
-              <option value={0}>No blur</option>
+              <option value={0} selected={imageConfig.blur === 0}>
+                No blur
+              </option>
               {Array(10)
                 .fill(0)
                 .map((_, i) => (
-                  <option key={i} value={i + 1}>
+                  <option
+                    key={i}
+                    value={i + 1}
+                    selected={imageConfig.blur === i + 1}
+                  >
                     {i + 1}
                   </option>
                 ))}

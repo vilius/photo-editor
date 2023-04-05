@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { z } from 'zod';
+import { imageSrc } from 'lib/picsum';
 
 import { NavBar } from 'components/ui/NavBar';
 import { picsum } from 'lib/picsum';
@@ -9,6 +10,8 @@ import { picsum } from 'lib/picsum';
 type Props = {
   perPage?: number;
 };
+
+const IMAGE_SIZE = { width: 300, height: 200 };
 
 export const Browse: FC<Props> = ({ perPage = 12 }) => {
   const { pageNumber } = useParams();
@@ -38,10 +41,13 @@ export const Browse: FC<Props> = ({ perPage = 12 }) => {
                 <Link to={`/edit/${image.id}`}>
                   <figure aria-label={`Image by ${image.author}`}>
                     <img
-                      src={`https://picsum.photos/id/${image.id}/300/200`}
+                      src={imageSrc(image.id, {
+                        width: IMAGE_SIZE.width,
+                        height: IMAGE_SIZE.height,
+                      })}
                       alt={`Author ${image.author}`}
-                      width={300}
-                      height={200}
+                      width={IMAGE_SIZE.width}
+                      height={IMAGE_SIZE.height}
                       className='d-block'
                     />
                     <figcaption>{image.author}</figcaption>
