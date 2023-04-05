@@ -8,6 +8,7 @@ type ImageConfig = {
   width: number;
   height: number;
   grayscale: boolean;
+  blur: number;
 };
 
 export const Edit = () => {
@@ -19,6 +20,7 @@ export const Edit = () => {
       width: 300,
       height: 200,
       grayscale: false,
+      blur: 0,
     }
   );
 
@@ -30,7 +32,9 @@ export const Edit = () => {
           <img
             src={`https://picsum.photos/id/${imageId}/${imageConfig.width}/${
               imageConfig.height
-            }${imageConfig.grayscale ? '?grayscale' : ''}`}
+            }${imageConfig.grayscale ? '?grayscale' : ''}${
+              imageConfig.blur ? `?blur=${imageConfig.blur}` : ''
+            }`}
             alt='Preview'
             width={imageConfig.width}
             height={imageConfig.height}
@@ -69,7 +73,7 @@ export const Edit = () => {
               }
             />
           </label>
-          <label className='flex gap-4'>
+          <label className='flex gap-4 mb-4'>
             <span className='grow cursor-pointer'>Grayscale</span>
             <input
               type='checkbox'
@@ -84,6 +88,28 @@ export const Edit = () => {
                 }))
               }
             />
+          </label>
+          <label className='flex gap-4'>
+            <span className='grow cursor-pointer'>Blur level</span>
+            <select
+              className='w-20'
+              aria-label='Blur image'
+              onChange={(e) =>
+                setImageConfig((current) => ({
+                  ...current,
+                  blur: parseInt(e.target.value, 10) || 0,
+                }))
+              }
+            >
+              <option value={0}>No blur</option>
+              {Array(10)
+                .fill(0)
+                .map((_, i) => (
+                  <option key={i} value={i + 1}>
+                    {i + 1}
+                  </option>
+                ))}
+            </select>
           </label>
         </div>
       </article>
